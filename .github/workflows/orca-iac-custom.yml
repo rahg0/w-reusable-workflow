@@ -1,0 +1,28 @@
+name: Cloud Security IaC Scan
+on:
+  workflow_call:
+    inputs:
+      project_key:
+        required: true
+        type: string
+      path:
+        required: true
+        type: string
+
+  workflow_dispatch:
+
+jobs:
+  IaC-Scan:
+    name: IaC Scan - Orca
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Orca IaC Scan
+        uses: orcasecurity/shiftleft-iac-action@v1
+        id: orca_scan
+        with:
+          api_token: ${{ secrets.ORCA_SECURITY_API_TOKEN_REPO }}
+          project_key: ${{ inputs.project_key }}
+          path: ${{ inputs.path }}

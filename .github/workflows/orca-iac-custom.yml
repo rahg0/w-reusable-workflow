@@ -17,8 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
+        
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.2"
+          
+      - name: Terraform Init
+        id: init-terraform
+        run: terraform init
+        
       - name: Run Orca IaC Scan
         uses: orcasecurity/shiftleft-iac-action@v1
         id: orca_scan
